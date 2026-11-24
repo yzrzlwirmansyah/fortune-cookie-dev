@@ -33,6 +33,13 @@ def main() -> None:
     with open(entry_path, "w", encoding="utf-8") as f:
         f.write(FORTUNE + "\n")
 
+    # Post-write self-verification: prove the output on disk is exactly
+    # the chosen fortune and within the gate before exiting.
+    with open(entry_path, "r", encoding="utf-8") as f:
+        written = f.read()
+    assert written == FORTUNE + "\n", "entry.txt does not match the chosen fortune"
+    assert 1 <= len(FORTUNE) <= 120, "fortune outside the 1-120 character gate"
+
 
 if __name__ == "__main__":
     main()
